@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="Aula03.jnlp">
+  <information>
+    <title>Aula03</title>
+    <vendor>2830482411033</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="Aula03.jar" size="7472" download="eager" />
+  </resources>
+  <application-desc main-class="aula03.Aula03"  name="Aula03" >
+  </application-desc>
+  <update check="always"/>
+</jnlp>

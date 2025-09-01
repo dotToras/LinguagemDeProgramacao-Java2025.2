@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="Jogo da Velha_browser.jnlp">
+  <information>
+    <title>Jogo da Velha</title>
+    <vendor>2830482411033</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+  </resources>
+  <applet-desc  width="800" height="600" main-class="jogo.da.velha.JogoDaVelha"  name="Jogo da Velha" >
+  </applet-desc>
+  <update check="always"/>
+</jnlp>
