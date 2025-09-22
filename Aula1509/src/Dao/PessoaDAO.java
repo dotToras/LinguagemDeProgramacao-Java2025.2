@@ -42,7 +42,7 @@ public class PessoaDAO {
             System.out.println("Erro ao inserir pessoa:" + ex.getMessage());
             
         }
-    }
+    } // fim do metodo de inserir Pessoa
     
     // Metodo comum consultar Pessoa
     public Pessoa getPessoa(int id){
@@ -70,7 +70,7 @@ public class PessoaDAO {
             System.out.println("Erro ao consultar pessoa: " + ex.getMessage());
             return null;
         }
-    }
+    } // fim do metodo de Consultar pessoa
     
     // Metodo comum para editar Pessoa
     public void editar(Pessoa pessoa){
@@ -88,6 +88,20 @@ public class PessoaDAO {
         } catch(SQLException ex){
             System.out.println("Erro ao atualizar pessoa: " + ex.getMessage());
         }
-    }
+    } // Fim do metodo de editar Pessoa
+    
+    // Metodo comum para excluir Pessoa
+    public void excluir(int id){
+        try{
+            String sql = "DELETE from pessoa WHERE id = ?";
+            
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            stmt.execute();
+        } catch(SQLException ex) {
+            System.out.println("Erro ao excluir pessoa: " + ex.getMessage());
+            
+        }
+    } // fim do metodo de excluir Pessoa
     
 } // fim da classe

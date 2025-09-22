@@ -30,19 +30,22 @@ public class FrmJavaBD02 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnG_Sexo = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
         btnConsultar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtSexo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtIdioma = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtIdBD = new javax.swing.JTextField();
         btnAtualizar = new javax.swing.JButton();
+        btnExcluir = new javax.swing.JButton();
+        rdo_Masc = new javax.swing.JRadioButton();
+        rdo_Fem = new javax.swing.JRadioButton();
+        cbbIdioma = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,7 +67,7 @@ public class FrmJavaBD02 extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel5.setText("Gerenciamento de Pessoas");
 
-        jLabel6.setText("ID:");
+        jLabel6.setText("Código:");
 
         txtIdBD.setEnabled(false);
         txtIdBD.addActionListener(new java.awt.event.ActionListener() {
@@ -80,6 +83,21 @@ public class FrmJavaBD02 extends javax.swing.JFrame {
             }
         });
 
+        btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
+
+        btnG_Sexo.add(rdo_Masc);
+        rdo_Masc.setText("Masculino");
+
+        btnG_Sexo.add(rdo_Fem);
+        rdo_Fem.setText("Feminino");
+
+        cbbIdioma.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Servio", "Galego", "Hindi" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -88,31 +106,35 @@ public class FrmJavaBD02 extends javax.swing.JFrame {
                 .addGap(94, 94, 94)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btnAtualizar)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtIdioma))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel6))
-                                .addGap(21, 21, 21)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtNome)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtIdBD, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 2, Short.MAX_VALUE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnConsultar))))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnExcluir)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnAtualizar))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addGap(18, 18, 18)
+                            .addComponent(cbbIdioma, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel1))
+                            .addGap(21, 21, 21)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtNome)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(btnConsultar))
+                                        .addComponent(txtIdBD, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(rdo_Masc)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(rdo_Fem)))
+                                    .addGap(0, 0, Short.MAX_VALUE)))))
                     .addComponent(jLabel5))
                 .addContainerGap(117, Short.MAX_VALUE))
         );
@@ -135,16 +157,19 @@ public class FrmJavaBD02 extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
+                    .addComponent(rdo_Masc)
+                    .addComponent(rdo_Fem))
+                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtIdioma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbbIdioma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAtualizar)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAtualizar)
+                    .addComponent(btnExcluir))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         pack();
@@ -156,26 +181,68 @@ public class FrmJavaBD02 extends javax.swing.JFrame {
         
         Pessoa p = pDAO.getPessoa(idPessoa);
         if(p == null){
-            txtNome.setText("");
-            txtSexo.setText("");
-            txtIdioma.setText("");
+            limparFormulario();
             JOptionPane.showMessageDialog(this, "Pessoa não encontrada !!");
         }
         else{
+            
+            txtIdBD.setText(txtId.getText());
             txtNome.setText(p.getNome());
-            txtSexo.setText(p.getSexo());
-            txtIdioma.setText(p.getIdioma());
+            //txtSexo.setText(p.getSexo());
+
+            if(p.getSexo().equals("Masculino")){
+                rdo_Masc.setSelected(true);
+            }
+            else{
+                rdo_Fem.setSelected(true);
+            }
+           // txtIdioma.setText(p.getIdioma());
+            cbbIdioma.setSelectedItem(p.getIdioma());
         }
        
     }//GEN-LAST:event_btnConsultarActionPerformed
-
+    public void limparFormulario(){
+        txtIdBD.setText("");
+        txtNome.setText("");
+        btnG_Sexo.clearSelection();
+        cbbIdioma.setSelectedItem(0);
+    }
     private void txtIdBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdBDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIdBDActionPerformed
 
     private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
-       
+          
+        String sexo = null;
+        
+        if(rdo_Masc.isSelected()){
+            sexo = "Masculino";
+        }
+        else if(rdo_Fem.isSelected()){
+            sexo = "Feminino";
+        }
+        
+        Pessoa p = new Pessoa();   
+        p.setId(Integer.parseInt(txtId.getText()));
+        p.setNome(txtNome.getText());
+        p.setSexo(sexo);
+        p.setIdioma(cbbIdioma.getSelectedItem().toString());
+           
+        PessoaDAO pDAO = new PessoaDAO();
+        pDAO.editar(p);
+        limparFormulario();
     }//GEN-LAST:event_btnAtualizarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir?", "Exclusão", JOptionPane.YES_NO_OPTION);
+        
+        if(resposta == JOptionPane.YES_OPTION){
+            PessoaDAO pDAO = new PessoaDAO();
+            pDAO.excluir(Integer.parseInt(txtId.getText()));            
+            limparFormulario();
+        }
+        
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -215,16 +282,19 @@ public class FrmJavaBD02 extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtualizar;
     private javax.swing.JButton btnConsultar;
+    private javax.swing.JButton btnExcluir;
+    private javax.swing.ButtonGroup btnG_Sexo;
+    private javax.swing.JComboBox<String> cbbIdioma;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JRadioButton rdo_Fem;
+    private javax.swing.JRadioButton rdo_Masc;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtIdBD;
-    private javax.swing.JTextField txtIdioma;
     private javax.swing.JTextField txtNome;
-    private javax.swing.JTextField txtSexo;
     // End of variables declaration//GEN-END:variables
 }
