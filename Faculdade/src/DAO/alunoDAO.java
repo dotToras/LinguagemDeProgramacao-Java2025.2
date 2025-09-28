@@ -11,10 +11,9 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
- * classe criada para...
-
+ * classe criada para gerenciar as operações de Aluno (CRUD)
  * @author Matheus Ferreira Gonçalves
-*  @since classe criada em Sep 28, 2025
+ *  @since classe criada em Sep 28, 2025
  */
 public class alunoDAO {
 
@@ -93,13 +92,13 @@ public class alunoDAO {
             stmt.setLong(4, aluno.codigo);
             
             stmt.execute();
-            JOptionPane.showMessageDialog(null, "Dados de Aluno atualizado com sucesso!!");
+            JOptionPane.showMessageDialog(null, "Dados de Aluno atualizados com sucesso!!");
             
         } catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Erro ao atualizar dados de Aluno " + e.getMessage());
         }
         
-    }
+    } // fim de editar Aluno
     
     // Metodo comum para excluir Aluno
     public void excluirAluno(long RA){
