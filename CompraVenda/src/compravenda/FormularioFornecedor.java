@@ -59,7 +59,7 @@ public class FormularioFornecedor extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jTextField12 = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel9.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel9.setText("Número");
