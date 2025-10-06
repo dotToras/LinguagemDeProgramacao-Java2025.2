@@ -3,7 +3,10 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import model.Produto;
 
@@ -49,5 +52,37 @@ public class ProdutoDAO {
     }
 
 
-    
+    public List<Produto> consultarProdutos() {
+        
+        String comando = "SELECT * FROM Produto";
+        
+        try{
+            
+            PreparedStatement stmt = conn.prepareStatement(comando, ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                                           ResultSet.CONCUR_UPDATABLE);
+            
+            ResultSet rs = stmt.executeQuery(); // armazendo o retorno da Consulta
+            List<Produto> listaProdutos = new ArrayList(); // criando uma lista de produtos para armazenar todos os resultados
+            
+            // Percorre rs e salva os objetos dentro do objeto Produto e depois adiciona na lista
+            while(rs.next()){
+                Produto prod = new Produto();
+                
+                prod.setProdutoCodigo(rs.getInt("pro_Codigo"));
+                prod.setProdutoNome(rs.getString("pro_Nome"));
+                prod.setProdutoValor(rs.getFloat("pro_Valor"));
+                prod.setProdutoQuantidadeEstoque(rs.getInt("pro_QuantidadeEstoque"));
+                prod.setProdutoQuantidadelimite(rs.getInt("pro_Quantidadelimite"));
+                prod.setProdutoDescricao(rs.getString("pro_Descricao"));
+                listaProdutos.add(prod);
+            }
+            
+            return listaProdutos; // retorna a lista já preenchida
+            
+        } catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Não foi possível consultar Produtos " + e.getMessage());
+            return null;
+        }
+        
+    }
 } // fim da classe

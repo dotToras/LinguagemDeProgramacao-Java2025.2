@@ -44,6 +44,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
         mniCadNotas = new javax.swing.JMenuItem();
         mniCadProdutos = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        mniConsuProd = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
@@ -106,6 +109,26 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu5.setText("Consultas");
+
+        jMenuItem2.setText("Consultar Cliente");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem2);
+
+        jMenuItem3.setText("Consultar Fornecedor");
+        jMenu5.add(jMenuItem3);
+
+        mniConsuProd.setText("Consultar Produtos");
+        mniConsuProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniConsuProdActionPerformed(evt);
+            }
+        });
+        jMenu5.add(mniConsuProd);
+
         jMenuBar1.add(jMenu5);
 
         jMenu2.setText("Relatórios");
@@ -153,6 +176,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
         frmCli.setVisible(true);
     }//GEN-LAST:event_mniCadClienteActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void mniConsuProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniConsuProdActionPerformed
+        ConsultarProduto csP = new ConsultarProduto();
+        csP.setVisible(true);
+    }//GEN-LAST:event_mniConsuProdActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -198,10 +230,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem mniCadCliente;
     private javax.swing.JMenuItem mniCadFornecedor;
     private javax.swing.JMenuItem mniCadNotas;
     private javax.swing.JMenuItem mniCadProdutos;
+    private javax.swing.JMenuItem mniConsuProd;
     private javax.swing.JLabel txtImagem;
     // End of variables declaration//GEN-END:variables
 }

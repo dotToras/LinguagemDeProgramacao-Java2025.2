@@ -17,7 +17,7 @@ public class Produto {
     private String produtoDescricao;
 
     public Produto() {
-
+        
     }
     
     public int getProdutoCodigo() {
