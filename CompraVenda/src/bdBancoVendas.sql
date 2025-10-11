@@ -79,3 +79,34 @@ create table ProdutosNota(
     FOREIGN KEY(nof_Codigo) REFERENCES notaFiscal(nof_Codigo)
 
 );
+
+Delimiter $$
+create procedure inserirFornecedor(
+
+pend_Estado varchar(60), 
+pend_Cidade varchar(60), 
+pend_Bairro varchar(60), 
+pend_Rua varchar(60), 
+pend_UF varchar(2), 
+pend_Complemento varchar(60), 
+pend_Numero int, 
+pend_CEP varchar(8),
+pfor_Nome varchar(60),
+pfor_NomeFantasia varchar(60), 
+pfor_CNPJ varchar(14),
+pfor_Email varchar(70), 
+pfor_Telefone varchar(13)
+
+)	
+	BEGIN
+    
+    /*Primeiro cadastro o endereço*/
+    INSERT INTO Endereco(end_Estado, end_Cidade, end_Bairro, end_Rua, end_UF, end_Complemento, end_Numero, end_CEP)
+        Values(pend_Estado, pend_Cidade, pend_Bairro, pend_Rua, pend_UF, pend_Complemento, pend_Numero, pend_CEP);
+               
+    /*Depois insiro no fornecedor*/        
+    Insert into Fornecedor(for_Nome, for_NomeFantasia, for_CNPJ, for_Email, for_Telefone, end_Codigo)
+		Values(pfor_Nome, pfor_NomeFantasia, pfor_CNPJ, pfor_Email, pfor_Telefone, last_insert_id()); /* insiro o ultimo ID gerado*/
+    END $$
+Delimiter ;
+SElECT * from Produto;

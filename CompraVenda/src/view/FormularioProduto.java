@@ -1,5 +1,5 @@
 
-package compravenda;
+package view;
 
 import DAO.ProdutoDAO;
 import model.Produto;
