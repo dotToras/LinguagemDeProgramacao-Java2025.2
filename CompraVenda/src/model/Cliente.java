@@ -8,40 +8,28 @@ package model;
  */
 public class Cliente {
 
-    private int codigoCliente;
-    private String nomeCliente;
+    private int codigo;
+    private String nome;
     private String docIdentificador;
-    private String telefoneCliente;
-    private String emailCliente;
-    private boolean tipoCliente;
-    private int enderecoCodigo;
-    
-    public Cliente(int codigoCliente, String nomeCliente, String docIdentificador, String telefoneCliente,String emailCliente, boolean tipoCliente, int enderecoCodigo){
-        
-        this.codigoCliente = codigoCliente;
-        this.nomeCliente = nomeCliente;
-        this.docIdentificador = docIdentificador;
-        this.telefoneCliente = telefoneCliente;
-        this.emailCliente = emailCliente;
-        this.tipoCliente = tipoCliente;
-        this.enderecoCodigo = enderecoCodigo;
-        
+    private String telefone;
+    private String email;
+    private boolean tipo;
+    Endereco endereco;
+
+    public int getCodigo() {
+        return codigo;
     }
 
-    public int getCodigoCliente() {
-        return codigoCliente;
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
-    public void setCodigoCliente(int codigoCliente) {
-        this.codigoCliente = codigoCliente;
+    public String getNome() {
+        return nome;
     }
 
-    public String getNomeCliente() {
-        return nomeCliente;
-    }
-
-    public void setNomeCliente(String nomeCliente) {
-        this.nomeCliente = nomeCliente;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getDocIdentificador() {
@@ -52,38 +40,38 @@ public class Cliente {
         this.docIdentificador = docIdentificador;
     }
 
-    public String getTelefoneCliente() {
-        return telefoneCliente;
+    public String getTelefone() {
+        return telefone;
     }
 
-    public void setTelefoneCliente(String telefoneCliente) {
-        this.telefoneCliente = telefoneCliente;
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
-    public String getEmailCliente() {
-        return emailCliente;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailCliente(String emailCliente) {
-        this.emailCliente = emailCliente;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public boolean isTipoCliente() {
-        return tipoCliente;
+    public boolean isTipo() {
+        return tipo;
     }
 
-    public void setTipoCliente(boolean tipoCliente) {
-        this.tipoCliente = tipoCliente;
+    public void setTipo(boolean tipo) {
+        this.tipo = tipo;
     }
 
-    public int getEnderecoCodigo() {
-        return enderecoCodigo;
+    public Endereco getEndereco() {
+        return endereco;
     }
 
-    public void setEnderecoCodigo(int enderecoCodigo) {
-        this.enderecoCodigo = enderecoCodigo;
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
-          
+
     
     
 } // fim da classe
