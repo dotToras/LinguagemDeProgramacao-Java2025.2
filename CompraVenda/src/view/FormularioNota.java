@@ -6,11 +6,18 @@
 package view;
 
 import DAO.ClienteDAO;
+import DAO.FornecedorDAO;
+import DAO.ItensNotaDAO;
+import DAO.NotaDAO;
 import DAO.ProdutoDAO;
+import java.text.DecimalFormat;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import model.Cliente;
+import model.Fornecedor;
+import model.Nota;
 import model.Produto;
+import model.ProdutosNota;
 
 /**
  *
@@ -23,12 +30,12 @@ public class FormularioNota extends javax.swing.JFrame {
      */
     public FormularioNota() {
         initComponents();
-        
+
         if(rdbEntrada.isSelected()) {
-            preencherClientesJuridicos();
+            preencherFornecedores();
         }
         else if(rdbSaida.isSelected()) {
-            preencherClientesFisicos();
+            preencherClientes();
         }
         
         preencherProdutos();
@@ -73,6 +80,8 @@ public class FormularioNota extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         btnRemoverItem = new javax.swing.JButton();
+        btnQtdMais = new javax.swing.JButton();
+        btnQtdMenos = new javax.swing.JButton();
 
         jButton5.setBackground(new java.awt.Color(238, 213, 97));
         jButton5.setText("limpar Dados");
@@ -137,6 +146,12 @@ public class FormularioNota extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel7.setText("Produtos");
 
+        cbbProdutos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbProdutosActionPerformed(evt);
+            }
+        });
+
         btnAdicionarItem.setText("Adicionar");
         btnAdicionarItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -149,7 +164,7 @@ public class FormularioNota extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome", "Valor", "Quantidade", "Quantidade em Estoque"
+                "Código", "Nome", "Valor", "Quantidade"
             }
         ));
         jScrollPane1.setViewportView(tblItensNota);
@@ -159,6 +174,8 @@ public class FormularioNota extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel9.setText("Valor Unidade em Reais(R$)");
+
+        txtValorUnidade.setEnabled(false);
 
         jLabel10.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel10.setText("Itens na nota");
@@ -177,64 +194,87 @@ public class FormularioNota extends javax.swing.JFrame {
             }
         });
 
+        btnQtdMais.setText("+");
+        btnQtdMais.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQtdMaisActionPerformed(evt);
+            }
+        });
+
+        btnQtdMenos.setText("-");
+        btnQtdMenos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQtdMenosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(txtValorUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(SalvarDados))
-                        .addGap(61, 61, 61)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel4)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(cbbPagamentos, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(txtValorTotal, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(jLabel1))
+                                    .addGap(59, 59, 59)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel6)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(rdbEntrada)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(rdbSaida))
+                                        .addComponent(txtDataEmissao)))
+                                .addComponent(cbbDestinatario, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(cbbPagamentos, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtValorTotal, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(jLabel1))
-                                .addGap(59, 59, 59)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel6)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(rdbEntrada)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(rdbSaida))
-                                    .addComponent(txtDataEmissao)))
-                            .addComponent(cbbDestinatario, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jButton2))
-                        .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel7)
+                                    .addComponent(cbbProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnAdicionarItem))
+                            .addComponent(jLabel12)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton2)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel7)
-                                .addComponent(cbbProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnAdicionarItem))
-                        .addComponent(jLabel12)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel10)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnRemoverItem)))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnRemoverItem)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(112, 112, 112))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(SalvarDados)
+                                    .addComponent(txtValorUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(64, 64, 64)))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel8)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnQtdMais, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnQtdMenos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -278,19 +318,20 @@ public class FormularioNota extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(cbbProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnAdicionarItem))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtValorUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbbProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAdicionarItem))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnQtdMais, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnQtdMenos, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtValorUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(SalvarDados)
@@ -303,43 +344,50 @@ public class FormularioNota extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     float valorTotal = 0;
-    
+    int quantidade = 1;
+    DecimalFormat formatoDuasCasas = new DecimalFormat( "#.00" );
+
     private void rdbEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbEntradaActionPerformed
+        
+        // FIX: na vdd, agora que parei pra pensar saída eu tenho que listar todos os clientes
+        //      Já em entrada, eu só tenho que listar todos os CNPJ
         if(rdbEntrada.isSelected()) {
             cbbDestinatario.removeAllItems();
-            preencherClientesJuridicos();
+            preencherFornecedores();
         }
         else if(rdbSaida.isSelected()) {
             cbbDestinatario.removeAllItems();
-            preencherClientesFisicos();
+            preencherClientes();
         };
     }//GEN-LAST:event_rdbEntradaActionPerformed
 
     private void rdbSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbSaidaActionPerformed
         if(rdbEntrada.isSelected()) {
             cbbDestinatario.removeAllItems();
-            preencherClientesJuridicos();
+            preencherFornecedores();
         }
         else if(rdbSaida.isSelected()) {
             cbbDestinatario.removeAllItems();
-            preencherClientesFisicos();
+            preencherClientes();
         }
     }//GEN-LAST:event_rdbSaidaActionPerformed
 
     private void btnAdicionarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarItemActionPerformed
        
         DefaultTableModel dtmItens = (DefaultTableModel) tblItensNota.getModel();
+        String produtoInteiro = cbbProdutos.getSelectedItem().toString();
+        String[] valor = produtoInteiro.split(" - ");
         
         Object[] produto = new Object[]{ 
-            cbbProdutos.getSelectedItem(), 
+            valor[0],
+            valor[1], 
             txtValorUnidade.getText(), 
             txtQuantidade.getText() 
         };
         
         dtmItens.addRow(produto);
-        
         valorTotal += Float.parseFloat(txtValorUnidade.getText()) * Integer.parseInt(txtQuantidade.getText());
-        txtValorTotal.setText(String.valueOf(valorTotal));
+        txtValorTotal.setText(String.valueOf(formatoDuasCasas.format(valorTotal)));
         
     }//GEN-LAST:event_btnAdicionarItemActionPerformed
 
@@ -347,41 +395,115 @@ public class FormularioNota extends javax.swing.JFrame {
         int linha = tblItensNota.getSelectedRow();
         DefaultTableModel dtmItens = (DefaultTableModel) tblItensNota.getModel();
         
-        valorTotal -= (Float.parseFloat(dtmItens.getValueAt(linha, 1).toString()) * Integer.parseInt(dtmItens.getValueAt(linha, 2).toString()));
+        valorTotal -= (Float.parseFloat(dtmItens.getValueAt(linha, 2).toString()) * Integer.parseInt(dtmItens.getValueAt(linha, 3).toString()));
         dtmItens.removeRow(linha);  
-        txtValorTotal.setText(String.valueOf(valorTotal));
+        txtValorTotal.setText(String.valueOf(formatoDuasCasas.format(valorTotal)));
 
     }//GEN-LAST:event_btnRemoverItemActionPerformed
 
     private void SalvarDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalvarDadosActionPerformed
-        // TODO add your handling code here:
+        
+        // TODO adicionar lógica para salvar nota com seus itens
+        NotaDAO nDAO = new NotaDAO();
+        
+        Nota nota = new Nota();
+
+        // lógica para salvar os Dados da Nota em si
+        nota.setDataEmissao(txtDataEmissao.getText());
+        nota.setFormaPagamento(cbbPagamentos.getSelectedItem().toString());
+        nota.setValorTotal(Float.parseFloat(txtValorTotal.getText().replace(",", ".")));
+
+        if(rdbEntrada.isSelected()) {
+            nota.setTipoNota(false);
+            Fornecedor forn = (Fornecedor) cbbDestinatario.getSelectedItem();
+            nota.setFornecedor(forn);
+        } else if(rdbSaida.isSelected()) {
+            Cliente cli = (Cliente) cbbDestinatario.getSelectedItem();
+            nota.setTipoNota(true);
+            nota.setCliente(cli);
+        }
+        
+        int idGerado = nDAO.inserirNota(nota); // insere e após isso pega o ID gerado
+        
+        // lógica para salvar os itens da nota, percorrendo a lista
+        DefaultTableModel dtmItens = (DefaultTableModel) tblItensNota.getModel();
+        int tamanhoItensTab = dtmItens.getRowCount(); // pega numero de inhas da tabela
+        
+        // Percorre cada item e cadastra no banco
+        for(int i = 0; i < tamanhoItensTab; i++) {
+            
+            ProdutosNota item = new ProdutosNota();
+            
+            item.setCodNotaFiscal(idGerado);
+            item.setCodProduto(Integer.parseInt(dtmItens.getValueAt(i, 0).toString()));
+            item.setQuantidade(Integer.parseInt(dtmItens.getValueAt(i, 3).toString()));
+            item.setValorUnidade(Float.parseFloat(dtmItens.getValueAt(i, 2).toString()));
+            
+            ItensNotaDAO iDAO = new ItensNotaDAO();
+            iDAO.inserirItensNota(item);
+            
+        }        
+
     }//GEN-LAST:event_SalvarDadosActionPerformed
-    public void preencherClientesFisicos(){
+
+    private void cbbProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbProdutosActionPerformed
+        // TODO adicionar aqui para colocar o preço no campo toda fez que selecionar um produto
+        String produto = cbbProdutos.getSelectedItem().toString();
+        String[] valor = produto.split(" - ");
+        
+        txtValorUnidade.setText(valor[2]);
+        txtQuantidade.setText("1");
+        quantidade = 1;
+        // TODO adicionar  botões para aumentar e diminuir a quantidadeçro do podut
+    }//GEN-LAST:event_cbbProdutosActionPerformed
+
+    private void btnQtdMaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQtdMaisActionPerformed
+        
+        String produto = cbbProdutos.getSelectedItem().toString();
+        String[] qtd = produto.split(" - ");
+        
+        int valorQtd = Integer.parseInt(qtd[3]);
+        if(quantidade < valorQtd ) {
+            quantidade++;
+        }
+        
+        txtQuantidade.setText(String.valueOf(quantidade));
+        
+    }//GEN-LAST:event_btnQtdMaisActionPerformed
+
+    private void btnQtdMenosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQtdMenosActionPerformed
+       
+        if(quantidade > 1) {
+            quantidade--;
+        }
+        
+        txtQuantidade.setText(String.valueOf(quantidade));
+    }//GEN-LAST:event_btnQtdMenosActionPerformed
+    public void preencherClientes(){
         
         ClienteDAO cDAO = new ClienteDAO();
         
-        List<Cliente> listaClientes = cDAO.consultarClientesCPF();
+        List<Cliente> listaClientes = cDAO.consultarClientes();
                 
         
         for(Cliente cli : listaClientes) {
 
-            String msg = cli.getNome() + " CPF: " + cli.getDocIdentificador(); 
-            cbbDestinatario.addItem(msg);
+            
+            cbbDestinatario.addItem(cli);
         
         }
     }
       
-    public void preencherClientesJuridicos(){
+    public void preencherFornecedores(){
         
-        ClienteDAO cDAO = new ClienteDAO();
+        FornecedorDAO fDAO = new FornecedorDAO();
         
-        List<Cliente> listaClientes = cDAO.consultarClientesCNPJ();
+        List<Fornecedor> listaFornecedores = fDAO.consultarFornecedores();
                 
         
-        for(Cliente cli : listaClientes) {
+        for(Fornecedor forn : listaFornecedores) {
 
-            String msg = cli.getNome() + " CNPJ: " + cli.getDocIdentificador(); 
-            cbbDestinatario.addItem(msg);
+            cbbDestinatario.addItem(forn);
         
         }
     }    
@@ -395,9 +517,10 @@ public class FormularioNota extends javax.swing.JFrame {
         
         for(Produto prod : listaProdutos) {
 
-            cbbProdutos.addItem(prod.getProdutoNome());
+            cbbProdutos.addItem(prod);
         
         }
+        
     }
     /**
      * @param args the command line arguments
@@ -439,6 +562,8 @@ public class FormularioNota extends javax.swing.JFrame {
     private javax.swing.JButton SalvarDados;
     private javax.swing.ButtonGroup btgTipoNota;
     private javax.swing.JButton btnAdicionarItem;
+    private javax.swing.JButton btnQtdMais;
+    private javax.swing.JButton btnQtdMenos;
     private javax.swing.JButton btnRemoverItem;
     private javax.swing.JComboBox cbbDestinatario;
     private javax.swing.JComboBox cbbPagamentos;

@@ -23,8 +23,8 @@ public class Produto {
     @Override
     public String toString(){
         
-        String msg = produtoNome + " - R$" + produtoValor + " - Qtd:" + produtoQuantidadeEstoque;
-        return msg;
+       
+        return this.produtoCodigo + " - " + this.produtoNome + " - " + this.produtoValor + " - " + this.produtoQuantidadeEstoque;
     }
     
     public int getProdutoCodigo() {

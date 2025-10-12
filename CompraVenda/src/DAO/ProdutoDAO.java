@@ -85,4 +85,7 @@ public class ProdutoDAO {
         }
         
     }
+    
+    // TODO adicionar metodo para buscar somente produtos com estoque
+    
 } // fim da classe

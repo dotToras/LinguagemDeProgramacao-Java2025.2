@@ -16,6 +16,11 @@ public class Cliente {
     private boolean tipo;
     Endereco endereco;
 
+    @Override
+    public String toString() {
+        return this.getCodigo() + " - " + this.getNome() + " Documento: " + this.getDocIdentificador(); 
+    }
+    
     public int getCodigo() {
         return codigo;
     }

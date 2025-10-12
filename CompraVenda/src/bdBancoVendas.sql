@@ -147,3 +147,26 @@ Delimiter ;
 
 Select * From Cliente
 INNER JOIN Endereco USING(end_codigo);
+
+DELIMITER $$
+CREATE PROCEDURE inserirNota (
+    IN p_valorTotal DECIMAL(8,2),
+    IN p_dataEmissao DATE,
+    IN p_formaPagamento VARCHAR(60),
+    IN p_tipoNota BOOLEAN,
+    IN p_cliCodigo INT,
+    IN p_forCodigo INT,
+    OUT p_idGerado INT -- preciso retornar esse id para que consiga inserir os itens
+)
+BEGIN
+ 
+    INSERT INTO notaFiscal (nof_valorTotal, nof_DataEmissao, nof_FormaPagamento, nof_TipoNota, cli_Codigo, for_Codigo)
+    VALUES (p_valorTotal, p_dataEmissao, p_formaPagamento, p_tipoNota, p_cliCodigo, p_forCodigo);
+
+    -- pego o id gerado após inserir a nota e guardo para retornar
+    SET p_idGerado = LAST_INSERT_ID();
+    
+END$$
+DELIMITER ;
+
+select * from notaFiscal;

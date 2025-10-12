@@ -7,6 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
 import model.Fornecedor;
 
 /**
@@ -60,5 +63,40 @@ public class FornecedorDAO {
         
     }
     
+    public List<Fornecedor> consultarFornecedores() {
+        
+        String comando = "SELECT * FROM Fornecedor";
+        
+        try{
+            
+            PreparedStatement stmt = conn.prepareStatement(comando, ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                                           ResultSet.CONCUR_UPDATABLE);
+            
+            ResultSet rs = stmt.executeQuery(); // armazendo o retorno da Consulta
+            List<Fornecedor> listaFornecedores = new ArrayList(); // criando uma lista de forutos para armazenar todos os resultados
+            
+            // Percorre rs e salva os objetos dentro do objeto Fornecedor e depois adiciona na lista
+            while(rs.next()){
+                
+                Fornecedor forn = new Fornecedor();
+                
+                forn.setCodigo(rs.getInt("for_Codigo"));
+                forn.setNome(rs.getString("for_Nome"));
+                forn.setNomeFantasia(rs.getString("for_nomeFantasia"));
+                forn.setEmail(rs.getString("for_email"));
+                forn.setTelefone(rs.getString("for_Telefone"));
+                forn.setCNPJ(rs.getString("for_CNPJ"));
+                
+                listaFornecedores.add(forn);
+            }
+            
+            return listaFornecedores; // retorna a lista já preenchida
+            
+        } catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Não foi possível consultar Fornecedores " + e.getMessage());
+            return null;
+        }
+        
+    }      
     
 } // fim da classe

@@ -17,6 +17,12 @@ public class Fornecedor {
     private String telefone;
     Endereco endereco;
 
+    @Override
+    public String toString() {
+        return this.getCodigo() + " - " + this.getNome() + " CNPJ: " + this.getCNPJ();
+                
+    }
+    
     public int getCodigo() {
         return codigo;
     }

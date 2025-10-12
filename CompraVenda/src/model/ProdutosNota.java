@@ -17,8 +17,8 @@ public class ProdutosNota {
     int codigo;
     float valorUnidade;
     int quantidade;
-    Produto produto;
-    Nota notaFiscal;
+    int codProduto;
+    int codNotaFiscal;
 
     public int getCodigo() {
         return codigo;
@@ -44,21 +44,22 @@ public class ProdutosNota {
         this.quantidade = quantidade;
     }
 
-    public Produto getProduto() {
-        return produto;
+    public int getCodProduto() {
+        return codProduto;
     }
 
-    public void setProduto(Produto produto) {
-        this.produto = produto;
+    public void setCodProduto(int codProduto) {
+        this.codProduto = codProduto;
     }
 
-    public Nota getNotaFiscal() {
-        return notaFiscal;
+    public int getCodNotaFiscal() {
+        return codNotaFiscal;
     }
 
-    public void setNotaFiscal(Nota notaFiscal) {
-        this.notaFiscal = notaFiscal;
+    public void setCodNotaFiscal(int codNotaFiscal) {
+        this.codNotaFiscal = codNotaFiscal;
     }
+
     
     
     
