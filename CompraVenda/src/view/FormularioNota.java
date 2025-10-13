@@ -183,6 +183,8 @@ public class FormularioNota extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel8.setText("Quantidade");
 
+        txtQuantidade.setEnabled(false);
+
         jLabel9.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel9.setText("Valor Unidade em Reais(R$)");
 
@@ -198,7 +200,7 @@ public class FormularioNota extends javax.swing.JFrame {
         jLabel12.setText("Dados de Itens da Nota");
 
         btnRemoverItem.setBackground(new java.awt.Color(255, 49, 49));
-        btnRemoverItem.setText("Remover Item");
+        btnRemoverItem.setText("Remover Item Selecionado");
         btnRemoverItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRemoverItemActionPerformed(evt);

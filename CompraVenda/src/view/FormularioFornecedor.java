@@ -42,13 +42,11 @@ public class FormularioFornecedor extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        cbbUF = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtCidade = new javax.swing.JTextField();
-        txtTelefone = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -64,6 +62,8 @@ public class FormularioFornecedor extends javax.swing.JFrame {
         btnConsultarForn = new javax.swing.JButton();
         txtCNPJ = new javax.swing.JFormattedTextField();
         txtCEP = new javax.swing.JFormattedTextField();
+        txtUF = new javax.swing.JTextField();
+        txtTelefone = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -87,8 +87,6 @@ public class FormularioFornecedor extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel3.setText("Documento Identificador (CNPJ)");
-
-        cbbUF.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO", " " }));
 
         jLabel4.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel4.setText("Email");
@@ -134,9 +132,14 @@ public class FormularioFornecedor extends javax.swing.JFrame {
         jLabel14.setText("Nome Fantasia");
 
         cbb_Estado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Distrito Federal", "Espírito Santo", "Goiás", "Maranhão", "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro", "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Roraima", "Santa Catarina", "São Paulo", "Sergipe", "Tocantins" }));
+        cbb_Estado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbb_EstadoActionPerformed(evt);
+            }
+        });
 
         btnConsultarForn.setBackground(new java.awt.Color(51, 204, 255));
-        btnConsultarForn.setText("Listar Fornecedores");
+        btnConsultarForn.setText("Consultar Fornecedores");
         btnConsultarForn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConsultarFornActionPerformed(evt);
@@ -151,6 +154,20 @@ public class FormularioFornecedor extends javax.swing.JFrame {
 
         try {
             txtCEP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        txtUF.setText("AC");
+        txtUF.setEnabled(false);
+        txtUF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUFActionPerformed(evt);
+            }
+        });
+
+        try {
+            txtTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) #####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -180,8 +197,8 @@ public class FormularioFornecedor extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(txtCNPJ, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtNomeFantasia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
-                                .addComponent(txtTelefone, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING)))
+                                .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(77, 77, 77)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -221,7 +238,7 @@ public class FormularioFornecedor extends javax.swing.JFrame {
                                                 .addGap(18, 18, 18)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jLabel11)
-                                                    .addComponent(cbbUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                    .addComponent(txtUF, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                         .addComponent(txtBairro, javax.swing.GroupLayout.Alignment.LEADING)))
                                 .addGap(89, 89, 89))))))
         );
@@ -257,20 +274,22 @@ public class FormularioFornecedor extends javax.swing.JFrame {
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbbUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbb_Estado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(cbb_Estado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13)
                             .addComponent(jLabel15))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(15, 15, 15)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtCEP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -288,15 +307,13 @@ public class FormularioFornecedor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvarDados)
                     .addComponent(btnlimparCampos)
                     .addComponent(btnConsultarForn))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -311,7 +328,7 @@ public class FormularioFornecedor extends javax.swing.JFrame {
         txtComplemento.setText("");
         txtRua.setText("");
         txtNumero.setText("");
-        cbbUF.setSelectedIndex(0);
+        txtUF.setText("");
         cbb_Estado.setSelectedIndex(0);
         
         // limpando dados de Fornecedor
@@ -344,7 +361,7 @@ public class FormularioFornecedor extends javax.swing.JFrame {
         end.setEnderecoEstado((String) cbb_Estado.getSelectedItem());
         end.setEnderecoNumero(Integer.parseInt(txtNumero.getText()));
         end.setEnderecoRua(txtRua.getText());
-        end.setEnderecoUF((String) cbbUF.getSelectedItem());
+        end.setEnderecoUF(txtUF.getText());
         
         // TODO interessante ter validação de campos vazios
         forn.setEndereco(end);
@@ -360,6 +377,100 @@ public class FormularioFornecedor extends javax.swing.JFrame {
     private void btnlimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimparCamposActionPerformed
         limparDados();
     }//GEN-LAST:event_btnlimparCamposActionPerformed
+
+    private void cbb_EstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbb_EstadoActionPerformed
+    String item = cbb_Estado.getSelectedItem().toString();
+        
+        switch (item) {
+            case "Acre":
+                txtUF.setText("AC");
+                break;
+            case "Alagoas":
+                txtUF.setText("AL");
+                break;
+            case "Amapá":
+                txtUF.setText("AP");
+                break;
+            case "Amazonas":
+                txtUF.setText("AM");
+                break;
+            case "Bahia":
+                txtUF.setText("BA");
+                break;
+            case "Ceará":
+                txtUF.setText("CE");
+                break;
+            case "Distrito Federal":
+                txtUF.setText("DF");
+                break;
+            case "Espírito Santo":
+                txtUF.setText("ES");
+                break;
+            case "Goiás":
+                txtUF.setText("GO");
+                break;
+            case "Maranhão":
+                txtUF.setText("MA");
+                break;
+            case "Mato Grosso":
+                txtUF.setText("MT");
+                break;
+            case "Mato Grosso do Sul":
+                txtUF.setText("MS");
+                break;
+            case "Minas Gerais":
+                txtUF.setText("MG");
+                break;
+            case "Pará":
+                txtUF.setText("PA");
+                break;
+            case "Paraíba":
+                txtUF.setText("PB");
+                break;
+            case "Paraná":
+                txtUF.setText("PR");
+                break;
+            case "Pernambuco":
+                txtUF.setText("PE");
+                break;
+            case "Piauí":
+                txtUF.setText("PI");
+                break;
+            case "Rio de Janeiro":
+                txtUF.setText("RJ");
+                break;
+            case "Rio Grande do Norte":
+                txtUF.setText("RN");
+                break;
+            case "Rio Grande do Sul":
+                txtUF.setText("RS");
+                break;
+            case "Rondônia":
+                txtUF.setText("RO");
+                break;
+            case "Roraima":
+                txtUF.setText("RR");
+                break;
+            case "Santa Catarina":
+                txtUF.setText("SC");
+                break;
+            case "São Paulo":
+                txtUF.setText("SP");
+                break;
+            case "Sergipe":
+                txtUF.setText("SE");
+                break;
+            case "Tocantins":
+                txtUF.setText("TO");
+                break;
+            default:
+                break;
+        }
+    }//GEN-LAST:event_cbb_EstadoActionPerformed
+
+    private void txtUFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUFActionPerformed
 
     /**
      * @param args the command line arguments
@@ -400,7 +511,6 @@ public class FormularioFornecedor extends javax.swing.JFrame {
     private javax.swing.JButton btnConsultarForn;
     private javax.swing.JButton btnSalvarDados;
     private javax.swing.JButton btnlimparCampos;
-    private javax.swing.JComboBox cbbUF;
     private javax.swing.JComboBox cbb_Estado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -428,6 +538,7 @@ public class FormularioFornecedor extends javax.swing.JFrame {
     private javax.swing.JTextField txtNomeFantasia;
     private javax.swing.JTextField txtNumero;
     private javax.swing.JTextField txtRua;
-    private javax.swing.JTextField txtTelefone;
+    private javax.swing.JFormattedTextField txtTelefone;
+    private javax.swing.JTextField txtUF;
     // End of variables declaration//GEN-END:variables
 }
