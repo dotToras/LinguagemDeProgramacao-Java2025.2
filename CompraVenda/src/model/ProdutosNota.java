@@ -1,24 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package model;
 
 /**
- * classe criada para...
-
+ * classe criada para representar os Dados dos Itens da Nota
  * @author Matheus Ferreira Gonçalves
-*  @since classe criada em Oct 11, 2025
+ * @since classe criada em Oct 11, 2025
  */
 public class ProdutosNota {
 
     int codigo;
     float valorUnidade;
     int quantidade;
-    int codProduto;
-    int codNotaFiscal;
+    Produto produto;
+    Nota NotaFiscal; 
 
     public int getCodigo() {
         return codigo;
@@ -44,23 +38,21 @@ public class ProdutosNota {
         this.quantidade = quantidade;
     }
 
-    public int getCodProduto() {
-        return codProduto;
+    public Produto getProduto() {
+        return produto;
     }
 
-    public void setCodProduto(int codProduto) {
-        this.codProduto = codProduto;
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
-    public int getCodNotaFiscal() {
-        return codNotaFiscal;
+    public Nota getNotaFiscal() {
+        return NotaFiscal;
     }
 
-    public void setCodNotaFiscal(int codNotaFiscal) {
-        this.codNotaFiscal = codNotaFiscal;
+    public void setNotaFiscal(Nota NotaFiscal) {
+        this.NotaFiscal = NotaFiscal;
     }
 
-    
-    
-    
+  
 } // fim da classe

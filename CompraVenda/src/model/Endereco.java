@@ -1,16 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package model;
 
 /**
- * classe criada para...
-
+ * classe criada para representar os Dados de um Endereço
  * @author Matheus Ferreira Gonçalves
-*  @since classe criada em Oct 10, 2025
+ * @since classe criada em Oct 10, 2025
  */
 public class Endereco {
 

@@ -5,6 +5,11 @@
  */
 package view;
 
+import DAO.ClienteDAO;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import model.Cliente;
+
 /**
  *
  * @author akiamara
@@ -16,6 +21,7 @@ public class ConsultarCliente extends javax.swing.JFrame {
      */
     public ConsultarCliente() {
         initComponents();
+        preencheTabela();
     }
 
     /**
@@ -27,23 +33,24 @@ public class ConsultarCliente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblClientes = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Codigo", "Nome", "Documento", "Telefone", "Email", "Tipo", "Rua", "Bairro", "Complemento", "Numero", "CEP", "Cidade", "Estado", "UF"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tblClientes);
+
+        jLabel3.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        jLabel3.setText("Consulta de Clientes");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -51,20 +58,55 @@ public class ConsultarCliente extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addComponent(jScrollPane2)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(549, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(516, 516, 516))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(104, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(30, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(204, 204, 204))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    public void preencheTabela() {
+        ClienteDAO cDAO = new ClienteDAO();
+        
+        List<Cliente> listaClientes = cDAO.consultarClientesEndereco();
+        
+        DefaultTableModel tabelaPessoas = (DefaultTableModel) tblClientes.getModel();
+        
+  
+        for(Cliente cli : listaClientes) {
+            Object[] obj = new Object[]{
+                cli.getCodigo(),
+                cli.getNome(),
+                cli.getDocIdentificador(),
+                cli.getTelefone(),
+                cli.getEmail(),
+                (cli.isTipo() ? "Físico" : "Jurídico"),
+                cli.getEndereco().getEnderecoRua(),
+                cli.getEndereco().getEnderecoBairro(),
+                cli.getEndereco().getEnderecoComplemento(),
+                cli.getEndereco().getEnderecoNumero(),
+                cli.getEndereco().getEnderecoCEP(),
+                cli.getEndereco().getEnderecoCidade(),
+                cli.getEndereco().getEnderecoEstado(),
+                cli.getEndereco().getEnderecoUF()
+         };
+            tabelaPessoas.addRow(obj);
+               
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -101,7 +143,8 @@ public class ConsultarCliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tblClientes;
     // End of variables declaration//GEN-END:variables
 }

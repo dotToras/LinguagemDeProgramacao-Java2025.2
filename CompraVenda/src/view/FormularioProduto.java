@@ -41,7 +41,7 @@ public class FormularioProduto extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDescricaoProd = new javax.swing.JTextArea();
         btnApagarCampos = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnConsultarProd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(236, 217, 147));
@@ -88,11 +88,11 @@ public class FormularioProduto extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(51, 204, 255));
-        jButton1.setText("Listar Produtos");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnConsultarProd.setBackground(new java.awt.Color(51, 204, 255));
+        btnConsultarProd.setText("Consultar Produtos");
+        btnConsultarProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnConsultarProdActionPerformed(evt);
             }
         });
 
@@ -106,7 +106,7 @@ public class FormularioProduto extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSalvar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnConsultarProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnApagarCampos))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,12 +163,14 @@ public class FormularioProduto extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
                     .addComponent(btnApagarCampos)
-                    .addComponent(jButton1))
+                    .addComponent(btnConsultarProd))
                 .addGap(45, 45, 45))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    // Método comum para limpar os Dados do Formulário
     public void limparFormulario(){
         txtNomeProd.setText("");
         txtValorProd.setText("");
@@ -177,32 +179,38 @@ public class FormularioProduto extends javax.swing.JFrame {
         txtDescricaoProd.setText("");
     }
     
+    // Método comum para Cadastrar o Produto
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+ 
         ProdutoDAO pDAO = new ProdutoDAO();
         
         txtNomeProd.getText();
         
         Produto prod = new Produto();
         
+        // Preencho o objeto com o valor dos campos e depois chamo o metodo de cadastro
         prod.setProdutoNome(txtNomeProd.getText());
         prod.setProdutoValor(Float.parseFloat(txtValorProd.getText()));
         prod.setProdutoQuantidadeEstoque(Integer.parseInt(txtQuantidadeEstoqueProd.getText()));
         prod.setProdutoQuantidadelimite(Integer.parseInt(txtQuantidadelimiteProd.getText()));
         prod.setProdutoDescricao(txtDescricaoProd.getText());
         
+        
         pDAO.inserirProduto(prod);
         
         limparFormulario();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    // Método comum para chamar o botão de limpar os campos
     private void btnApagarCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApagarCamposActionPerformed
         limparFormulario();
     }//GEN-LAST:event_btnApagarCamposActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    // Método comum para chamar o botão de consultar Produtos
+    private void btnConsultarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarProdActionPerformed
         ConsultarProduto csP = new ConsultarProduto();
         csP.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnConsultarProdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -241,8 +249,8 @@ public class FormularioProduto extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApagarCampos;
+    private javax.swing.JButton btnConsultarProd;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;

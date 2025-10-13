@@ -6,6 +6,7 @@
 package view;
 
 import DAO.FornecedorDAO;
+import javax.swing.JOptionPane;
 import model.Endereco;
 import model.Fornecedor;
 
@@ -123,6 +124,11 @@ public class FormularioFornecedor extends javax.swing.JFrame {
 
         btnlimparCampos.setBackground(new java.awt.Color(238, 213, 97));
         btnlimparCampos.setText("Limpar Campos");
+        btnlimparCampos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnlimparCamposActionPerformed(evt);
+            }
+        });
 
         jLabel14.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel14.setText("Nome Fantasia");
@@ -296,6 +302,28 @@ public class FormularioFornecedor extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void limparDados() {
+        
+        // limpando dados de Endereco
+        txtBairro.setText("");
+        txtCEP.setValue(null);
+        txtCidade.setText("");
+        txtComplemento.setText("");
+        txtRua.setText("");
+        txtNumero.setText("");
+        cbbUF.setSelectedIndex(0);
+        cbb_Estado.setSelectedIndex(0);
+        
+        // limpando dados de Fornecedor
+        txtNome.setText("");
+        txtNomeFantasia.setText("");
+        txtCNPJ.setValue(null);
+        txtEmail.setText("");
+        txtNumero.setText("");
+        txtTelefone.setText("");
+        
+    }
+    
     private void btnSalvarDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarDadosActionPerformed
        
         FornecedorDAO fDAO = new FornecedorDAO();
@@ -318,18 +346,20 @@ public class FormularioFornecedor extends javax.swing.JFrame {
         end.setEnderecoRua(txtRua.getText());
         end.setEnderecoUF((String) cbbUF.getSelectedItem());
         
-        if(forn == null || end == null) {
-            System.out.println("Por favor preencha todos os campos");
-        }
-        else {
+        // TODO interessante ter validação de campos vazios
         forn.setEndereco(end);
         fDAO.inserirFornecedor(forn);
-        }
+        limparDados();
     }//GEN-LAST:event_btnSalvarDadosActionPerformed
 
     private void btnConsultarFornActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarFornActionPerformed
-        // TODO add your handling code here:
+        ConsultarFornecedor csF = new ConsultarFornecedor();
+        csF.setVisible(true);
     }//GEN-LAST:event_btnConsultarFornActionPerformed
+
+    private void btnlimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimparCamposActionPerformed
+        limparDados();
+    }//GEN-LAST:event_btnlimparCamposActionPerformed
 
     /**
      * @param args the command line arguments

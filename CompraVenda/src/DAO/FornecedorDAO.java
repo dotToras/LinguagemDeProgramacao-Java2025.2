@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import model.Endereco;
 import model.Fornecedor;
 
 /**
@@ -36,6 +37,7 @@ public class FornecedorDAO {
         
         try{
             
+                // Aqui preparo a procedure
                 CallableStatement  ctal = this.conn.prepareCall(query);
                 
                 // Dados de Endereço
@@ -56,13 +58,15 @@ public class FornecedorDAO {
                 ctal.setString(13, fornecedor.getTelefone());
                 
                 ctal.executeQuery();
+                JOptionPane.showMessageDialog(null, "Fornecedor cadastrado com sucesso");
             
         } catch(SQLException e){
-            System.out.println("Erro ao inserir fornecedor: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Erro ao inserir fornecedor: " + e.getMessage());
         }
         
     }
     
+    // Método comum para consultar Fornecedores
     public List<Fornecedor> consultarFornecedores() {
         
         String comando = "SELECT * FROM Fornecedor";
@@ -73,7 +77,7 @@ public class FornecedorDAO {
                                                            ResultSet.CONCUR_UPDATABLE);
             
             ResultSet rs = stmt.executeQuery(); // armazendo o retorno da Consulta
-            List<Fornecedor> listaFornecedores = new ArrayList(); // criando uma lista de forutos para armazenar todos os resultados
+            List<Fornecedor> listaFornecedores = new ArrayList(); // criando uma lista de fornecedores para armazenar todos os resultados
             
             // Percorre rs e salva os objetos dentro do objeto Fornecedor e depois adiciona na lista
             while(rs.next()){
@@ -93,10 +97,64 @@ public class FornecedorDAO {
             return listaFornecedores; // retorna a lista já preenchida
             
         } catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Não foi possível consultar Fornecedores " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Não foi possível consultar Fornecedores " + e.getMessage());
             return null;
         }
         
     }      
+    
+    // Método comum para consultar Fornecedores com Endereço
+    public List<Fornecedor> consultarFornecedoressEndereco() {
+        
+        String comando = "Select  for_Codigo, for_Nome, for_NomeFantasia, for_CNPJ, " + 
+                         "for_Email, for_Telefone, end_Estado, end_Cidade," + 
+                         "end_Bairro, end_Rua, end_UF, end_Complemento, end_Numero, end_CEP"  +
+                         "\nfrom Fornecedor" +
+                         "\nInner join Endereco Using(end_codigo);";
+        
+        try{
+            
+            PreparedStatement stmt = conn.prepareStatement(comando, ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                                           ResultSet.CONCUR_UPDATABLE);
+            
+            ResultSet rs = stmt.executeQuery(); // armazendo o retorno da Consulta
+            List<Fornecedor> listaFornecedores = new ArrayList(); // criando uma lista de fornecedores para armazenar todos os resultados
+            
+            // Percorre rs e salva os objetos dentro do objeto Fornecedor e depois adiciona na lista
+            while(rs.next()){
+                Fornecedor forn = new Fornecedor();
+                Endereco end = new Endereco();
+                
+                // Dados de fornecedor
+                forn.setCodigo(rs.getInt("for_Codigo"));
+                forn.setNome(rs.getString("for_Nome"));
+                forn.setNomeFantasia(rs.getString("for_NomeFantasia"));
+                forn.setEmail(rs.getString("for_email"));
+                forn.setTelefone(rs.getString("for_Telefone"));
+                forn.setCNPJ(rs.getString("for_CNPJ")); 
+ 
+                // Dados de Endereço
+                end.setEnderecoEstado(rs.getString("end_Estado")); 
+                end.setEnderecoCidade(rs.getString("end_Cidade")); 
+                end.setEnderecoBairro(rs.getString("end_Bairro")); 
+                end.setEnderecoRua(rs.getString("end_Rua")); 
+                end.setEnderecoUF(rs.getString("end_UF")); 
+                end.setEnderecoComplemento(rs.getString("end_Complemento"));
+                end.setEnderecoNumero(rs.getInt("end_Numero")); 
+                end.setEnderecoCEP(rs.getString("end_CEP"));
+                
+                forn.setEndereco(end);
+                listaFornecedores.add(forn);
+            }
+            
+            return listaFornecedores; // retorna a lista já preenchida
+            
+        } catch(SQLException e){
+                JOptionPane.showMessageDialog(null, "Não foi possível consultar Fornecedores com endereço " + e.getMessage());
+                return null;
+        }
+        
+    }  
+        
     
 } // fim da classe

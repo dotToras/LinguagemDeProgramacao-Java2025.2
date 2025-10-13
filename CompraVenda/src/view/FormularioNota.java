@@ -11,6 +11,7 @@ import DAO.ItensNotaDAO;
 import DAO.NotaDAO;
 import DAO.ProdutoDAO;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import model.Cliente;
@@ -65,8 +66,8 @@ public class FormularioNota extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         cbbDestinatario = new javax.swing.JComboBox();
         SalvarDados = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnlimparDados = new javax.swing.JButton();
+        btnConsultarNotas = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         cbbProdutos = new javax.swing.JComboBox();
         btnAdicionarItem = new javax.swing.JButton();
@@ -137,11 +138,21 @@ public class FormularioNota extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(238, 213, 97));
-        jButton2.setText("limpar Dados");
+        btnlimparDados.setBackground(new java.awt.Color(238, 213, 97));
+        btnlimparDados.setText("limpar Dados");
+        btnlimparDados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnlimparDadosActionPerformed(evt);
+            }
+        });
 
-        jButton3.setBackground(new java.awt.Color(51, 204, 255));
-        jButton3.setText("listar Notas");
+        btnConsultarNotas.setBackground(new java.awt.Color(51, 204, 255));
+        btnConsultarNotas.setText("Consultar Notas");
+        btnConsultarNotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarNotasActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel7.setText("Produtos");
@@ -246,9 +257,9 @@ public class FormularioNota extends javax.swing.JFrame {
                                 .addComponent(btnAdicionarItem))
                             .addComponent(jLabel12)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnConsultarNotas, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2)))
+                                .addComponent(btnlimparDados)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -335,8 +346,8 @@ public class FormularioNota extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(SalvarDados)
-                            .addComponent(jButton2)
-                            .addComponent(jButton3))))
+                            .addComponent(btnlimparDados)
+                            .addComponent(btnConsultarNotas))))
                 .addContainerGap(84, Short.MAX_VALUE))
         );
 
@@ -345,65 +356,73 @@ public class FormularioNota extends javax.swing.JFrame {
 
     float valorTotal = 0;
     int quantidade = 1;
-    DecimalFormat formatoDuasCasas = new DecimalFormat( "#.00" );
+    // Crio esse objeto do tipo DecimalFormato para especificar a mascara de 2 casas decimais
+    DecimalFormat formatoDuasCasas = new DecimalFormat( "#.00" ); 
 
-    private void rdbEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbEntradaActionPerformed
-        
-        // FIX: na vdd, agora que parei pra pensar saída eu tenho que listar todos os clientes
-        //      Já em entrada, eu só tenho que listar todos os CNPJ
-        if(rdbEntrada.isSelected()) {
-            cbbDestinatario.removeAllItems();
+    // Método comum para  atualizar se o destinário é Cliente ou Fornecedor
+    private void atualizarDestinatario() {
+        cbbDestinatario.removeAllItems();
+
+        if (rdbEntrada.isSelected()) {
             preencherFornecedores();
-        }
-        else if(rdbSaida.isSelected()) {
-            cbbDestinatario.removeAllItems();
+            
+        } else if (rdbSaida.isSelected()) {
             preencherClientes();
-        };
+        }
+        
+        preencherProdutos();
+    }
+    
+    private void rdbEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbEntradaActionPerformed
+        atualizarDestinatario();
     }//GEN-LAST:event_rdbEntradaActionPerformed
 
     private void rdbSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbSaidaActionPerformed
-        if(rdbEntrada.isSelected()) {
-            cbbDestinatario.removeAllItems();
-            preencherFornecedores();
-        }
-        else if(rdbSaida.isSelected()) {
-            cbbDestinatario.removeAllItems();
-            preencherClientes();
-        }
+        atualizarDestinatario();
     }//GEN-LAST:event_rdbSaidaActionPerformed
 
+    // Metodo comum para adicionar item na tabela
     private void btnAdicionarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarItemActionPerformed
        
         DefaultTableModel dtmItens = (DefaultTableModel) tblItensNota.getModel();
+        // Pego o produto selecionado na Combobox e divido a partir do separador " - "
         String produtoInteiro = cbbProdutos.getSelectedItem().toString();
         String[] valor = produtoInteiro.split(" - ");
-        
+     
+        // Crio um objeto para popular a tabela
         Object[] produto = new Object[]{ 
-            valor[0],
-            valor[1], 
+            valor[0], // Codigo
+            valor[1], // Nome
             txtValorUnidade.getText(), 
             txtQuantidade.getText() 
         };
         
         dtmItens.addRow(produto);
+        
+        // Atualizo o valor total 
         valorTotal += Float.parseFloat(txtValorUnidade.getText()) * Integer.parseInt(txtQuantidade.getText());
         txtValorTotal.setText(String.valueOf(formatoDuasCasas.format(valorTotal)));
         
     }//GEN-LAST:event_btnAdicionarItemActionPerformed
 
+    // Método comum para remover item da tabela
     private void btnRemoverItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverItemActionPerformed
+        
+        // Pego a linha e o modelo da tabela
         int linha = tblItensNota.getSelectedRow();
         DefaultTableModel dtmItens = (DefaultTableModel) tblItensNota.getModel();
         
+        // Atualizo o valor total, a partir dos valores na tabela
         valorTotal -= (Float.parseFloat(dtmItens.getValueAt(linha, 2).toString()) * Integer.parseInt(dtmItens.getValueAt(linha, 3).toString()));
         dtmItens.removeRow(linha);  
+        // Atualizo o valor e formato pra ser com 2 casas decimais
         txtValorTotal.setText(String.valueOf(formatoDuasCasas.format(valorTotal)));
 
     }//GEN-LAST:event_btnRemoverItemActionPerformed
 
+    // Método comum para salvar dados da Nota
     private void SalvarDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalvarDadosActionPerformed
         
-        // TODO adicionar lógica para salvar nota com seus itens
         NotaDAO nDAO = new NotaDAO();
         
         Nota nota = new Nota();
@@ -414,9 +433,10 @@ public class FormularioNota extends javax.swing.JFrame {
         nota.setValorTotal(Float.parseFloat(txtValorTotal.getText().replace(",", ".")));
 
         if(rdbEntrada.isSelected()) {
-            nota.setTipoNota(false);
+            // Pego o objeto da combobox e converto para um objeto do tipo Fornecedor
             Fornecedor forn = (Fornecedor) cbbDestinatario.getSelectedItem();
-            nota.setFornecedor(forn);
+            nota.setTipoNota(false); // atualizo o tipo da nota pra Entrada
+            nota.setFornecedor(forn); // associo o objeto 
         } else if(rdbSaida.isSelected()) {
             Cliente cli = (Cliente) cbbDestinatario.getSelectedItem();
             nota.setTipoNota(true);
@@ -427,15 +447,24 @@ public class FormularioNota extends javax.swing.JFrame {
         
         // lógica para salvar os itens da nota, percorrendo a lista
         DefaultTableModel dtmItens = (DefaultTableModel) tblItensNota.getModel();
-        int tamanhoItensTab = dtmItens.getRowCount(); // pega numero de inhas da tabela
+        int tamanhoItensTab = dtmItens.getRowCount(); // pega numero de linhas da tabela
         
+
         // Percorre cada item e cadastra no banco
         for(int i = 0; i < tamanhoItensTab; i++) {
             
             ProdutosNota item = new ProdutosNota();
+            Produto prod = new Produto();
             
-            item.setCodNotaFiscal(idGerado);
-            item.setCodProduto(Integer.parseInt(dtmItens.getValueAt(i, 0).toString()));
+            
+            int codProduto = Integer.parseInt(dtmItens.getValueAt(i, 0).toString());
+            prod.setProdutoCodigo(codProduto);
+            
+            nota.setCodigo(idGerado);
+            
+            item.setProduto(prod);
+            item.setNotaFiscal(nota);
+            item.setProduto(prod); 
             item.setQuantidade(Integer.parseInt(dtmItens.getValueAt(i, 3).toString()));
             item.setValorUnidade(Float.parseFloat(dtmItens.getValueAt(i, 2).toString()));
             
@@ -443,85 +472,141 @@ public class FormularioNota extends javax.swing.JFrame {
             iDAO.inserirItensNota(item);
             
         }        
-
+        limparDados();
+        preencherProdutos();
     }//GEN-LAST:event_SalvarDadosActionPerformed
 
+    // Método para atuacizar o valor unitário do Produto 
     private void cbbProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbProdutosActionPerformed
-        // TODO adicionar aqui para colocar o preço no campo toda fez que selecionar um produto
+        if(cbbProdutos.getSelectedItem() == null) {
+            // apenas encerra
+            return;
+        }
         String produto = cbbProdutos.getSelectedItem().toString();
         String[] valor = produto.split(" - ");
         
+        // lógica para atualizar o campo de preço do produto, sempre que selecionar um novo Produto na combobox
         txtValorUnidade.setText(valor[2]);
+        // toda vez que seleciono um novo preciso resetar a quantidade          
         txtQuantidade.setText("1");
         quantidade = 1;
-        // TODO adicionar  botões para aumentar e diminuir a quantidadeçro do podut
     }//GEN-LAST:event_cbbProdutosActionPerformed
 
+    // Método comum para aumentar a quantidade
     private void btnQtdMaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQtdMaisActionPerformed
-        
+       
+        // Pego o item selecionado na combobox
         String produto = cbbProdutos.getSelectedItem().toString();
+        // E separo pelo separador num array de Strings
         String[] qtd = produto.split(" - ");
         
+        boolean podeAumentar = false;
+        
         int valorQtd = Integer.parseInt(qtd[3]);
-        if(quantidade < valorQtd ) {
-            quantidade++;
+        // Verifico se a quantidade não ultrapassa o que tem em estoque
+        
+        // TODO refatorar isso pra usar uma flag boolean
+        if(quantidade < valorQtd && rdbSaida.isSelected() ) { // quando é saída preciso limitar
+            podeAumentar = true;
+        }
+        else if(rdbEntrada.isSelected()) { // quando é entrada não
+            podeAumentar = true;
         }
         
+        if(podeAumentar) {
+            quantidade++;
+        }
         txtQuantidade.setText(String.valueOf(quantidade));
         
     }//GEN-LAST:event_btnQtdMaisActionPerformed
 
+    // Método comum para diminuir a quantidade
     private void btnQtdMenosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQtdMenosActionPerformed
        
+        // Toda vez que eu chamar o botão decremento, com o máximo sendo 1 
         if(quantidade > 1) {
             quantidade--;
         }
         
-        txtQuantidade.setText(String.valueOf(quantidade));
+        txtQuantidade.setText(String.valueOf(quantidade)); // atualizo a quantidad
     }//GEN-LAST:event_btnQtdMenosActionPerformed
+    
+    // Método comum para chamar o formulário ConsultarNotas atráves da ação do botão
+    private void btnConsultarNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarNotasActionPerformed
+        ConsultarNotas csN = new ConsultarNotas();
+        csN.setVisible(true);
+    }//GEN-LAST:event_btnConsultarNotasActionPerformed
+
+    // Método comum para limpar os dados do formulário
+    public void limparDados() {
+        
+        DefaultTableModel dtmItens = (DefaultTableModel) tblItensNota.getModel();
+
+        valorTotal = 0;
+        txtDataEmissao.setText("");
+        txtQuantidade.setText("");
+        txtValorTotal.setText("");
+        txtValorUnidade.setText("");
+        cbbDestinatario.setSelectedIndex(0);
+        cbbPagamentos.setSelectedIndex(0);
+        dtmItens.setRowCount(0);
+        cbbProdutos.setSelectedIndex(0);
+    }
+    
+    // Método comum do botão de limpar Dados
+    private void btnlimparDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimparDadosActionPerformed
+        
+        limparDados();
+
+    }//GEN-LAST:event_btnlimparDadosActionPerformed
+    
+    // Método comum para preencher a combobox com Clientes
     public void preencherClientes(){
         
-        ClienteDAO cDAO = new ClienteDAO();
-        
-        List<Cliente> listaClientes = cDAO.consultarClientes();
+        ClienteDAO cDAO = new ClienteDAO();     
+        List<Cliente> listaClientes = cDAO.consultarClientes(); // armazeno a lista retornada numa variavel de lista
                 
-        
+        // para cada Cliente na lista, eu adiciono na combobox
         for(Cliente cli : listaClientes) {
-
-            
-            cbbDestinatario.addItem(cli);
-        
+            // o que aparece na combo box está no metodo toString() sobreescrito na classe Cliente
+            cbbDestinatario.addItem(cli);       
         }
     }
       
+    // Método comum para preencher a combobox com Fornecedores
     public void preencherFornecedores(){
         
         FornecedorDAO fDAO = new FornecedorDAO();
-        
         List<Fornecedor> listaFornecedores = fDAO.consultarFornecedores();
-                
         
+        // para cada Fornecedor na lista, eu adiciono na combobox
         for(Fornecedor forn : listaFornecedores) {
-
+            // o que aparece na combo box está no metodo toString() sobreescrito na classe Fornecedor
             cbbDestinatario.addItem(forn);
-        
         }
     }    
-        
+    
+    // Método comum para preencher a combobox com Produtos
     public void preencherProdutos(){
+         
+        cbbProdutos.removeAllItems();
         
         ProdutoDAO pDAO = new ProdutoDAO();
+        List<Produto> listaProdutos =  new ArrayList<>();
         
-        List<Produto> listaProdutos = pDAO.consultarProdutos();
-                
-        
-        for(Produto prod : listaProdutos) {
-
-            cbbProdutos.addItem(prod);
-        
+        if(rdbEntrada.isSelected()) {
+            listaProdutos = pDAO.consultarProdutos();
+        }
+        else if(rdbSaida.isSelected()) {
+            listaProdutos = pDAO.consultarProdutosEstoque();
         }
         
+        for(Produto prod : listaProdutos) {
+            cbbProdutos.addItem(prod);      
+        }
+  
     }
+
     /**
      * @param args the command line arguments
      */
@@ -562,14 +647,14 @@ public class FormularioNota extends javax.swing.JFrame {
     private javax.swing.JButton SalvarDados;
     private javax.swing.ButtonGroup btgTipoNota;
     private javax.swing.JButton btnAdicionarItem;
+    private javax.swing.JButton btnConsultarNotas;
     private javax.swing.JButton btnQtdMais;
     private javax.swing.JButton btnQtdMenos;
     private javax.swing.JButton btnRemoverItem;
+    private javax.swing.JButton btnlimparDados;
     private javax.swing.JComboBox cbbDestinatario;
     private javax.swing.JComboBox cbbPagamentos;
     private javax.swing.JComboBox cbbProdutos;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

@@ -3,9 +3,8 @@ package model;
 
 /**
  * classe criada para representar os dados do Produto
-
  * @author Matheus Ferreira Gonçalves
-*  @since classe criada em Oct 5, 2025
+ * @since classe criada em Oct 5, 2025
  */
 public class Produto {
 
@@ -20,10 +19,9 @@ public class Produto {
         
     }
     
+    // sobreescrevi esse metodo para formatar como quero mostrar na hora de lista na cbb
     @Override
     public String toString(){
-        
-       
         return this.produtoCodigo + " - " + this.produtoNome + " - " + this.produtoValor + " - " + this.produtoQuantidadeEstoque;
     }
     

@@ -2,7 +2,7 @@
 package model;
 
 /**
- * Classe criada para representar as informações de um Cliente
+ * classe criada para representar as informações de um Cliente
  * @author Matheus Ferreira Gonçalves
  * @since Classe criada em 29/09/2025
  */
@@ -16,6 +16,7 @@ public class Cliente {
     private boolean tipo;
     Endereco endereco;
 
+    // sobreescrevi esse metodo para formatar como quero mostrar na hora de lista na cbb
     @Override
     public String toString() {
         return this.getCodigo() + " - " + this.getNome() + " Documento: " + this.getDocIdentificador(); 

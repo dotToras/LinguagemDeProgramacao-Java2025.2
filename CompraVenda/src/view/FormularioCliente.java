@@ -110,6 +110,11 @@ public class FormularioCliente extends javax.swing.JFrame {
 
         btnlimparCampos.setBackground(new java.awt.Color(238, 213, 97));
         btnlimparCampos.setText("Limpar Campos");
+        btnlimparCampos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnlimparCamposActionPerformed(evt);
+            }
+        });
 
         jLabel17.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel17.setText("Tipo");
@@ -123,6 +128,7 @@ public class FormularioCliente extends javax.swing.JFrame {
         });
 
         btgTipoCliente.add(rdbFisico);
+        rdbFisico.setSelected(true);
         rdbFisico.setText("Físico");
         rdbFisico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -175,6 +181,11 @@ public class FormularioCliente extends javax.swing.JFrame {
 
         btnConsultarCliente.setBackground(new java.awt.Color(51, 204, 255));
         btnConsultarCliente.setText("Consultar Clientes");
+        btnConsultarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarClienteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -226,30 +237,29 @@ public class FormularioCliente extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel9)
                                     .addComponent(txtNumero)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtComplemento, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel10)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel12)
-                                            .addComponent(cbb_Estado, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel11)
-                                            .addComponent(jLabel15)))
-                                    .addComponent(jLabel16)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(txtBairro, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(cbbUF, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel13)
-                                                    .addComponent(txtCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(18, 18, 18)
-                                                .addComponent(txtCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                            .addComponent(txtComplemento)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel7)
+                                .addComponent(jLabel10)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel12)
+                                        .addComponent(cbb_Estado, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel11)
+                                        .addComponent(jLabel15)))
+                                .addComponent(jLabel16)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtBairro, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(cbbUF, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel13)
+                                                .addComponent(txtCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGap(18, 18, 18)
+                                            .addComponent(txtCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(54, 54, 54))
@@ -269,7 +279,6 @@ public class FormularioCliente extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -304,9 +313,9 @@ public class FormularioCliente extends javax.swing.JFrame {
                                     .addComponent(jLabel8)
                                     .addComponent(jLabel9))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtRua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtRua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -346,7 +355,7 @@ public class FormularioCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void mudarMascara(java.awt.event.ActionEvent evt){
-        
+      
         try {
             mascaraCnpj = new MaskFormatter("##.###.###/####-##");
         } catch (ParseException ex) {
@@ -366,12 +375,34 @@ public class FormularioCliente extends javax.swing.JFrame {
         // A lógica de troca de máscara vem aqui
         if (rdbFisico.isSelected()) {
             txtDocumento.setFormatterFactory(new DefaultFormatterFactory(mascaraCpf));
-        } else {
+        } else if(rdbJuridico.isSelected()){
             // Se ele desmarcar o físico, subentende-se que o Jurídico foi marcado
             txtDocumento.setFormatterFactory(new DefaultFormatterFactory(mascaraCnpj));
         }
         
     }
+    
+    public void limparDados() {
+   
+        // limpando dados de Endereco
+        txtBairro.setText("");
+        txtCEP.setValue(null);
+        txtCidade.setText("");
+        txtComplemento.setText("");
+        txtRua.setText("");
+        txtNumero.setText("");
+        cbbUF.setSelectedIndex(0);
+        cbb_Estado.setSelectedIndex(0);
+        
+        // limpando dados de Cliente
+        txtNome.setText("");
+        txtDocumento.setValue(null); // por conta de ser um campo formato precisa usar o setValue
+        txtTelefone.setText("");
+        txtEmail.setText("");
+        btgTipoCliente.clearSelection();
+        
+    }
+    
     private void btnSalvarDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarDadosActionPerformed
         
         ClienteDAO cDAO = new ClienteDAO();
@@ -384,11 +415,11 @@ public class FormularioCliente extends javax.swing.JFrame {
         
         if(rdbFisico.isSelected()) {
 
-            cli.setTipo(false);
+            cli.setTipo(true);
         }
         else if(rdbJuridico.isSelected()){
 
-            cli.setTipo(true);
+            cli.setTipo(false);
         }
         
         Endereco end = new Endereco();
@@ -405,7 +436,9 @@ public class FormularioCliente extends javax.swing.JFrame {
         
         cli.setEndereco(end);
         
-        cDAO.inserirFornecedor(cli);
+        cDAO.inserirCliente(cli);
+        
+        limparDados();
     }//GEN-LAST:event_btnSalvarDadosActionPerformed
 
     private void rdbFisicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbFisicoActionPerformed
@@ -415,6 +448,15 @@ public class FormularioCliente extends javax.swing.JFrame {
     private void rdbJuridicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbJuridicoActionPerformed
        mudarMascara(evt);
     }//GEN-LAST:event_rdbJuridicoActionPerformed
+
+    private void btnConsultarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarClienteActionPerformed
+        ConsultarCliente csC = new ConsultarCliente();
+        csC.setVisible(true);
+    }//GEN-LAST:event_btnConsultarClienteActionPerformed
+
+    private void btnlimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimparCamposActionPerformed
+        limparDados();
+    }//GEN-LAST:event_btnlimparCamposActionPerformed
 
     /**
      * @param args the command line arguments

@@ -44,9 +44,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
         mniCadNotas = new javax.swing.JMenuItem();
         mniCadProdutos = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        mniConsultarCliente = new javax.swing.JMenuItem();
+        mniConsultarFornecedores = new javax.swing.JMenuItem();
         mniConsuProd = new javax.swing.JMenuItem();
+        mniNotas = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
@@ -110,16 +111,21 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jMenu5.setText("Consultas");
 
-        jMenuItem2.setText("Consultar Cliente");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        mniConsultarCliente.setText("Consultar Cliente");
+        mniConsultarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                mniConsultarClienteActionPerformed(evt);
             }
         });
-        jMenu5.add(jMenuItem2);
+        jMenu5.add(mniConsultarCliente);
 
-        jMenuItem3.setText("Consultar Fornecedor");
-        jMenu5.add(jMenuItem3);
+        mniConsultarFornecedores.setText("Consultar Fornecedor");
+        mniConsultarFornecedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniConsultarFornecedoresActionPerformed(evt);
+            }
+        });
+        jMenu5.add(mniConsultarFornecedores);
 
         mniConsuProd.setText("Consultar Produtos");
         mniConsuProd.addActionListener(new java.awt.event.ActionListener() {
@@ -128,6 +134,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu5.add(mniConsuProd);
+
+        mniNotas.setText("Consultar Notas Fiscais");
+        mniNotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniNotasActionPerformed(evt);
+            }
+        });
+        jMenu5.add(mniNotas);
 
         jMenuBar1.add(jMenu5);
 
@@ -176,14 +190,25 @@ public class MenuPrincipal extends javax.swing.JFrame {
         frmCli.setVisible(true);
     }//GEN-LAST:event_mniCadClienteActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    private void mniConsultarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniConsultarClienteActionPerformed
+        ConsultarCliente csC = new ConsultarCliente();
+        csC.setVisible(true);
+    }//GEN-LAST:event_mniConsultarClienteActionPerformed
 
     private void mniConsuProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniConsuProdActionPerformed
         ConsultarProduto csP = new ConsultarProduto();
         csP.setVisible(true);
     }//GEN-LAST:event_mniConsuProdActionPerformed
+
+    private void mniConsultarFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniConsultarFornecedoresActionPerformed
+        ConsultarFornecedor csF = new ConsultarFornecedor();
+        csF.setVisible(true);
+    }//GEN-LAST:event_mniConsultarFornecedoresActionPerformed
+
+    private void mniNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNotasActionPerformed
+        ConsultarNotas csN = new ConsultarNotas();
+        csN.setVisible(true);
+    }//GEN-LAST:event_mniNotasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -230,13 +255,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem mniCadCliente;
     private javax.swing.JMenuItem mniCadFornecedor;
     private javax.swing.JMenuItem mniCadNotas;
     private javax.swing.JMenuItem mniCadProdutos;
     private javax.swing.JMenuItem mniConsuProd;
+    private javax.swing.JMenuItem mniConsultarCliente;
+    private javax.swing.JMenuItem mniConsultarFornecedores;
+    private javax.swing.JMenuItem mniNotas;
     private javax.swing.JLabel txtImagem;
     // End of variables declaration//GEN-END:variables
 }

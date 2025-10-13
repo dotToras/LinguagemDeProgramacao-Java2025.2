@@ -36,7 +36,7 @@ create table Fornecedor(
     for_NomeFantasia varchar(60) not null,
     for_CNPJ varchar(20) not null,
     for_Email varchar(70),
-    for_Telefone varchar(13),
+    for_Telefone varchar(15),
 	end_Codigo int null,
     FOREIGN KEY(end_Codigo) REFERENCES Endereco(end_Codigo)
 
@@ -108,9 +108,7 @@ pfor_Telefone varchar(15)
 		Values(pfor_Nome, pfor_NomeFantasia, pfor_CNPJ, pfor_Email, pfor_Telefone, last_insert_id()); /* insiro o ultimo ID gerado*/
     END $$
 Delimiter ;
-SElECT * from Fornecedor;
 
-Select * From Fornecedor 
 INNER JOIN Endereco USING(end_codigo);
 
 Delimiter $$
@@ -145,7 +143,7 @@ pcli_Telefone varchar(15)
 Delimiter ;
 
 
-Select * From Cliente
+
 INNER JOIN Endereco USING(end_codigo);
 
 DELIMITER $$
@@ -159,7 +157,6 @@ CREATE PROCEDURE inserirNota (
     OUT p_idGerado INT -- preciso retornar esse id para que consiga inserir os itens
 )
 BEGIN
- 
     INSERT INTO notaFiscal (nof_valorTotal, nof_DataEmissao, nof_FormaPagamento, nof_TipoNota, cli_Codigo, for_Codigo)
     VALUES (p_valorTotal, p_dataEmissao, p_formaPagamento, p_tipoNota, p_cliCodigo, p_forCodigo);
 
@@ -169,4 +166,45 @@ BEGIN
 END$$
 DELIMITER ;
 
-select * from notaFiscal;
+
+DELIMITER $$
+CREATE PROCEDURE InserirItemSaida(
+    IN pvalorUnidade DECIMAL(8, 2), 
+    IN pquantidade INT,
+    IN pproCodigo INT,
+    IN pcodNotaFiscal INT
+)
+BEGIN
+    -- insiro a nota
+    INSERT INTO ProdutosNota (prn_valorUnidade, prn_Quantidade, pro_Codigo, nof_Codigo)
+    VALUES (pvalorUnidade, pquantidade, pproCodigo, pcodNotaFiscal);
+
+    -- atualizo o estoque do produto
+    UPDATE Produto 
+    SET pro_QuantidadeEstoque = pro_QuantidadeEstoque - pquantidade
+    WHERE pro_Codigo = pproCodigo;
+
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE InserirItemEntrada(
+    IN pvalorUnidade DECIMAL(8, 2), 
+    IN pquantidade INT,
+    IN pproCodigo INT,
+    IN pcodNotaFiscal INT
+)
+BEGIN
+    -- insiro a nota
+    INSERT INTO ProdutosNota (prn_valorUnidade, prn_Quantidade, pro_Codigo, nof_Codigo)
+    VALUES (pvalorUnidade, pquantidade, pproCodigo, pcodNotaFiscal);
+
+    -- atualizo o estoque do produto
+    UPDATE Produto 
+    SET pro_QuantidadeEstoque = pro_QuantidadeEstoque + pquantidade
+    WHERE pro_Codigo = pproCodigo;
+
+END$$
+
+DELIMITER ;

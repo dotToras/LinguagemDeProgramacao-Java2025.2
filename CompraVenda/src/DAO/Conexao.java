@@ -22,8 +22,8 @@ public class Conexao {
         try{
              Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbVendas?useTimezone=true&serverTimezone=UTC",
                                                            "root", 
-                                                           "root"); /*url, usuario, senha */
-             System.out.println("Conexão realizada com sucesso");
+                                                           "uma45A!çap"); /*url, usuario, senha */
+            System.out.println("Conexão realizada com sucesso");
              return conn;
         } catch (SQLException e){
             System.out.println("Erro ao conectar ao BD" + e.getMessage());

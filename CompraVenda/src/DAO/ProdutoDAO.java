@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import model.Produto;
 
 /**
- * classe criada para...
+ * classe criada para 
  * @author Matheus Ferreira Gonçalves
  * @since classe criada em Oct 5, 2025
  */
@@ -46,12 +46,11 @@ public class ProdutoDAO {
             JOptionPane.showMessageDialog(null, "Produto adicionado com sucesso ");
             
         } catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Erro ao inserir Produto: " + e.getMessage());
-          
+            JOptionPane.showMessageDialog(null, "Erro ao inserir Produto: " + e.getMessage());    
         }
     }
 
-
+    // Metodo comum para listar todos os Produtos
     public List<Produto> consultarProdutos() {
         
         String comando = "SELECT * FROM Produto";
@@ -80,12 +79,46 @@ public class ProdutoDAO {
             return listaProdutos; // retorna a lista já preenchida
             
         } catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Não foi possível consultar Produtos " + e.getMessage());
-            return null;
+                JOptionPane.showMessageDialog(null, "Não foi possível consultar Produtos " + e.getMessage());
+                return null;
         }
         
     }
     
-    // TODO adicionar metodo para buscar somente produtos com estoque
+    // Metodo comum para buscar somente produtos com estoque
+    public List<Produto> consultarProdutosEstoque() {
+        
+        String comando = "SELECT * FROM Produto Where pro_QuantidadeEstoque > 0 ";
+        
+        try{
+            
+            PreparedStatement stmt = conn.prepareStatement(comando, ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                                           ResultSet.CONCUR_UPDATABLE);
+            
+            ResultSet rs = stmt.executeQuery(); // armazendo o retorno da Consulta
+            List<Produto> listaProdutos = new ArrayList(); // criando uma lista de produtos para armazenar todos os resultados
+            
+            // Percorre rs e salva os objetos dentro do objeto Produto e depois adiciona na lista
+            while(rs.next()){
+                Produto prod = new Produto();
+                
+                prod.setProdutoCodigo(rs.getInt("pro_Codigo"));
+                prod.setProdutoNome(rs.getString("pro_Nome"));
+                prod.setProdutoValor(rs.getFloat("pro_Valor"));
+                prod.setProdutoQuantidadeEstoque(rs.getInt("pro_QuantidadeEstoque"));
+                prod.setProdutoQuantidadelimite(rs.getInt("pro_Quantidadelimite"));
+                prod.setProdutoDescricao(rs.getString("pro_Descricao"));
+                listaProdutos.add(prod);
+            }
+            
+            return listaProdutos; // retorna a lista já preenchida
+            
+        } catch(SQLException e){
+                JOptionPane.showMessageDialog(null, "Não foi possível consultar Produtos " + e.getMessage());
+                return null;
+        }
+        
+    }
     
+
 } // fim da classe
