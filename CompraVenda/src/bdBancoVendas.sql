@@ -109,7 +109,7 @@ pfor_Telefone varchar(15)
     END $$
 Delimiter ;
 
-INNER JOIN Endereco USING(end_codigo);
+
 
 Delimiter $$
 create procedure inserirCliente(
@@ -143,8 +143,6 @@ pcli_Telefone varchar(15)
 Delimiter ;
 
 
-
-INNER JOIN Endereco USING(end_codigo);
 
 DELIMITER $$
 CREATE PROCEDURE inserirNota (
